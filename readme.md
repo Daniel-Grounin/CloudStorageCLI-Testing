@@ -104,5 +104,12 @@ All configuration settings (bucket name, paths) are stored in `ProjectConfig.jav
 
 ---
 
+## 🖨 ScreenShots of Allure Report
+
+![Screenshot_1](https://github.com/user-attachments/assets/efc1ceda-9593-441c-aa3c-2e0cf1a7b8d5)
+![Screenshot_2](https://github.com/user-attachments/assets/adaf96ca-2e97-48f9-b5ae-b2aecc34b757)
+
+---
+
 ## 📜 License
 This project is for educational and testing purposes. Modify and use it as needed!
