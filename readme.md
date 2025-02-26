@@ -1,6 +1,95 @@
-# Cloud Storage CLI Testing
+# 📌 Project Overview
 
-This project contains automated tests for **Google Cloud Storage CLI** using **TestNG** and **Allure** for reporting. It verifies core functionalities such as bucket creation, file upload, listing files, and generating signed URLs.
+This project automates and tests **Google Cloud Storage CLI** commands using **TestNG**, **Allure** for reporting, and **Playwright** for signed URL validation.
+
+## 📂 Features
+
+✅ **Automated tests for Google Cloud Storage CLI commands:**
+- Create a bucket
+- Upload a file
+- List files in a bucket
+- Generate a signed URL
+
+🔄 **Modular test framework** for easy expansion
+
+📜 **Allure Reporting** for clear test execution insights
+
+🏗 **Maven-based project** for easy build & dependency management
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Prerequisites
+Make sure you have the following installed:
+- **Java 21+** ✅
+- **Maven** ✅
+- **Google Cloud SDK** ✅ *(Ensure gcloud CLI is authenticated and configured)*
+- **Allure CLI** ✅ *(For test reporting)*
+
+---
+
+### 2️⃣ Clone the Repository
+```sh
+git clone https://github.com/yourusername/CloudStorageCLI-Testing.git
+cd CloudStorageCLI-Testing
+```
+
+---
+
+### 3️⃣ Configure Project Settings
+Edit `ProjectConfig.java` to match your GCP setup:
+```java
+public class ProjectConfig {
+    public static final String BUCKET_NAME = "your-bucket-name";
+    public static final String TEST_FILE_NAME = "test-file.txt";
+    public static final String G_CLOUD_PATH = "\"C:\\Program Files (x86)\\Google\\Cloud SDK\\google-cloud-sdk\\bin\\gcloud.cmd\"";
+}
+```
+
+---
+
+### 4️⃣ Run Tests
+Execute tests using Maven:
+```sh
+mvn clean test
+```
+
+---
+
+### 5️⃣ Generate Allure Report
+After running the tests, generate the Allure report:
+```sh
+allure serve target/allure-results
+```
+
+---
+
+## 📝 Test Cases
+
+| Test Name              | Description                                  |
+|------------------------|----------------------------------------------|
+| **testCreateBucket**   | Checks if the bucket exists, creates if not |
+| **testUploadFile**     | Uploads a test file to the bucket           |
+| **testListFiles**      | Verifies the uploaded file exists in bucket |
+| **testGenerateSignedUrl** | Generates a signed URL for the uploaded file |
+
+### 🔹 Associated gcloud Commands
+
+| Operation | gcloud Command |
+|-----------|----------------|
+| **Create Bucket** | `gcloud storage buckets create gs://<BUCKET_NAME> --location=me-west1` |
+| **Upload File** | `gcloud storage cp test-file.txt gs://<BUCKET_NAME>/` |
+| **List Files** | `gcloud storage ls gs://<BUCKET_NAME>/` |
+| **Generate Signed URL** | `gcloud storage sign-url --duration=10m gs://<BUCKET_NAME>/test-file.txt` |
+
+---
+
+## 📊 Reporting System
+The project integrates **Allure Reports** for test execution insights. Reports include:
+- **Test results** (pass/fail)
+- **Execution time breakdown**
+- **Detailed logs per test**
 
 ---
 
@@ -29,78 +118,6 @@ CloudStorageCLI-Testing/
 │── test-file.txt            # Test file for uploads
 │── testng.xml               # TestNG configuration
 ```
-
----
-
-## ✅ Automated Tests & gcloud Commands
-
-Each test case automates a **gcloud storage** command to verify its expected behavior.
-
-### 🏗️ 1. Bucket Creation
-**Test:** Ensures a Google Cloud Storage bucket is created if it doesn't exist.
-**gcloud Command:**
-```sh
-gcloud storage buckets create gs://<BUCKET_NAME> --location=me-west1
-```
-
----
-
-### 📤 2. Upload File
-**Test:** Uploads a test file to the bucket if it does not already exist.
-**gcloud Command:**
-```sh
-gcloud storage cp test-file.txt gs://<BUCKET_NAME>/
-```
-
----
-
-### 📋 3. List Files
-**Test:** Lists files inside the specified bucket to check if the file exists.
-**gcloud Command:**
-```sh
-gcloud storage ls gs://<BUCKET_NAME>/
-```
-
----
-
-### 🔏 4. Generate Signed URL
-**Test:** Generates a signed URL for a stored file and ensures it is accessible.
-**gcloud Command:**
-```sh
-gcloud storage sign-url --duration=10m gs://<BUCKET_NAME>/test-file.txt
-```
-
----
-
-### 🕵️‍♂️ 5. Playwright Test: Phishing Check
-**Test:** Uses **Playwright** to verify that the signed URL does not trigger phishing warnings in a browser.
-
----
-
-## 🚀 Running the Tests
-
-### 1️⃣ Install Dependencies
-Ensure you have **Maven**, **gcloud CLI**, and **Playwright** installed.
-```sh
-mvn clean install
-```
-
-### 2️⃣ Run Tests with TestNG
-```sh
-mvn test
-```
-
-### 3️⃣ View Allure Test Reports
-```sh
-allure serve allure-results
-```
-
-This will launch a detailed test report in your browser, showing test results, execution time, and logs.
-
----
-
-## 🛠️ Configurations
-All configuration settings (bucket name, paths) are stored in `ProjectConfig.java`. Modify as needed.
 
 ---
 
