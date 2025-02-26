@@ -10,7 +10,7 @@ public class PlaywrightManager {
     public static Page getPage() {
         if (playwright == null) {
             playwright = Playwright.create();
-            browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
             page = browser.newPage();
         }
         return page;

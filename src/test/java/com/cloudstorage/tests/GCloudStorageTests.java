@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import io.qameta.allure.*;
 
-
 public class GCloudStorageTests {
 
     @BeforeClass
@@ -37,10 +36,7 @@ public class GCloudStorageTests {
         System.out.println("Bucket does not exist, creating...");
         String command = ProjectConfig.G_CLOUD_PATH + " storage buckets create gs://" + ProjectConfig.BUCKET_NAME + " --location=me-west1";
 
-        System.out.println("******************\nThe command is: " + command + "\n******************\n");
-
         String output = CommandRunner.runCommand(command);
-        System.out.println("output: " + output);
 
         // Validate creation success
         Assert.assertTrue(output.contains("Creating gs://" + ProjectConfig.BUCKET_NAME) || checkOutput.contains(ProjectConfig.BUCKET_NAME),
@@ -67,8 +63,6 @@ public class GCloudStorageTests {
         System.out.println("File does not exist, uploading...");
         String uploadCommand = ProjectConfig.G_CLOUD_PATH + " storage cp " + ProjectConfig.TEST_FILE_NAME + " gs://" + ProjectConfig.BUCKET_NAME + "/";
         String output = CommandRunner.runCommand(uploadCommand);
-
-        System.out.println("******************\noutput in testUploadFile(test2): " + output + "\n******************\n");
 
         Assert.assertTrue(output.toLowerCase().contains("copying") || output.toLowerCase().contains("uploaded"),
                 "File upload failed!");
@@ -99,8 +93,6 @@ public class GCloudStorageTests {
                 + ProjectConfig.BUCKET_NAME + "/" + ProjectConfig.TEST_FILE_NAME;
 
         String output = CommandRunner.runCommand(command);
-
-        System.out.println("******************\nSigned URL Command Output: " + output + "\n******************\n");
 
         Assert.assertTrue(output.contains("https://"), "Signed URL generation failed!");
     }

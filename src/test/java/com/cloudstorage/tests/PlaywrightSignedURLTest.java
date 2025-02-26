@@ -10,7 +10,6 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import java.nio.file.Paths;
 
 public class PlaywrightSignedURLTest {
     private String signedUrl;
@@ -23,24 +22,18 @@ public class PlaywrightSignedURLTest {
     }
 
     private String generateSignedUrl() {
+        if (signedUrl != null) return signedUrl;
         String command = ProjectConfig.G_CLOUD_PATH + " storage sign-url --duration=10m gs://"
                 + ProjectConfig.BUCKET_NAME + "/" + ProjectConfig.TEST_FILE_NAME;
 
         String output = CommandRunner.runCommand(command);
 
-        System.out.println("***************************");
-        System.out.println("Signed URL Command Output: " + output);
-        System.out.println("***************************");
-
         /// Extract the signed URL
         for (String line : output.split("\n")) {
             if (line.startsWith("signed_url:")) {
-                String url = line.replace("signed_url:", "").trim(); // Remove "signed_url:" and extra spaces
-                System.out.println("Extracted URL: " + url);
-                return url;
+                return line.replace("signed_url:", "").trim(); // Remove "signed_url:" and extra spaces
             }
         }
-
         return null;  // If no URL found, return null
     }
 
@@ -52,14 +45,7 @@ public class PlaywrightSignedURLTest {
         if (signedUrl == null) {
             Assert.fail("Failed to generate signed URL");
         }
-
-        System.out.println("Navigating to: " + signedUrl);
         page.navigate(signedUrl);
-
-        // Capture screenshot before checking for phishing warning
-        String screenshotPath = "phishing_check.png";
-        page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(screenshotPath)));
-        System.out.println("Screenshot saved to: " + screenshotPath);
 
         // Check for phishing warning text
         boolean isPhishingWarning = page.locator("text='Deceptive site ahead'").count() > 0 ||

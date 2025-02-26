@@ -1,11 +1,15 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Cloud Storage CLI Tests">
+<suite name="CloudStorageTests" parallel="classes" thread-count="4">
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
-    <test name="Cloud Storage Tests">
+    <test name="GCloud CLI Tests">
         <classes>
             <class name="com.cloudstorage.tests.GCloudStorageTests"/>
+        </classes>
+    </test>
+    <test name="Playwright Tests">
+        <classes>
+            <class name="com.cloudstorage.tests.PlaywrightSignedURLTest"/>
         </classes>
     </test>
 </suite>
