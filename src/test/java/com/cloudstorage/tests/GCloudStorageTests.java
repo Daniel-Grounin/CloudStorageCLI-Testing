@@ -5,6 +5,8 @@ import com.cloudstorage.config.ProjectConfig;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import io.qameta.allure.*;
+
 
 public class GCloudStorageTests {
 
@@ -15,6 +17,9 @@ public class GCloudStorageTests {
     }
 
     @Test(priority = 1)
+    @Description("Test to create a GCloud storage bucket")
+    @Severity(SeverityLevel.CRITICAL)
+    @Step("Executing testCreateBucket")
     public void testCreateBucket() {
         System.out.println("Checking if bucket exists...");
 
@@ -43,6 +48,9 @@ public class GCloudStorageTests {
     }
 
     @Test(priority = 2, dependsOnMethods = "testCreateBucket")
+    @Description("Test to upload a file to GCloud storage bucket")
+    @Severity(SeverityLevel.CRITICAL)
+    @Step("Executing testUploadFile")
     public void testUploadFile() {
         System.out.println("Checking if file exists in bucket...");
 
@@ -67,6 +75,9 @@ public class GCloudStorageTests {
     }
 
     @Test(priority = 3, dependsOnMethods = "testUploadFile")
+    @Description("Test to list the files in GCloud storage bucket")
+    @Severity(SeverityLevel.MINOR)
+    @Step("Executing testListFiles")
     public void testListFiles() throws InterruptedException {
         System.out.println("Checking if file exists in bucket...");
 
@@ -78,6 +89,9 @@ public class GCloudStorageTests {
     }
 
     @Test(priority = 4, dependsOnMethods = "testListFiles")
+    @Description("Test to generate url to store the file from the GCloud storage bucket")
+    @Severity(SeverityLevel.CRITICAL)
+    @Step("Executing testGenerateSignedUrl")
     public void testGenerateSignedUrl() {
         System.out.println("Generating signed URL...");
 

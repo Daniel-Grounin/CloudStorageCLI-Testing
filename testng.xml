@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Cloud Storage CLI Tests">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    <test name="Cloud Storage Tests">
+        <classes>
+            <class name="com.cloudstorage.tests.GCloudStorageTests"/>
+        </classes>
+    </test>
+</suite>

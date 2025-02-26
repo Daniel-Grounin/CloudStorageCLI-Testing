@@ -4,10 +4,12 @@ import com.cloudstorage.utils.CommandRunner;
 import com.cloudstorage.utils.PlaywrightManager;
 import com.cloudstorage.config.ProjectConfig;
 import com.microsoft.playwright.Page;
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Step;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
-import javax.annotation.Priority;
 import java.nio.file.Paths;
 
 public class PlaywrightSignedURLTest {
@@ -43,6 +45,9 @@ public class PlaywrightSignedURLTest {
     }
 
     @Test(priority = 5)
+    @Description("Test to check the generated url and check if triggered as phishing warning")
+    @Severity(SeverityLevel.NORMAL)
+    @Step("Executing testSignedUrlDoesNotTriggerPhishingWarning")
     public void testSignedUrlDoesNotTriggerPhishingWarning() {
         if (signedUrl == null) {
             Assert.fail("Failed to generate signed URL");
