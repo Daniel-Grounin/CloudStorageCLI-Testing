@@ -23,7 +23,7 @@ public class PlaywrightSignedURLTest {
 
     private String generateSignedUrl() {
         if (signedUrl != null) return signedUrl;
-        String command = ProjectConfig.G_CLOUD_PATH + " storage sign-url --duration=10m gs://"
+        String command = "gcloud storage sign-url --duration=10m gs://"
                 + ProjectConfig.BUCKET_NAME + "/" + ProjectConfig.TEST_FILE_NAME;
 
         String output = CommandRunner.runCommand(command);
@@ -37,7 +37,7 @@ public class PlaywrightSignedURLTest {
         return null;  // If no URL found, return null
     }
 
-    @Test(priority = 5)
+    @Test()
     @Description("Test to check the generated url and check if triggered as phishing warning")
     @Severity(SeverityLevel.NORMAL)
     @Step("Executing testSignedUrlDoesNotTriggerPhishingWarning")

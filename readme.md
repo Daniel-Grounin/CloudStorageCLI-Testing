@@ -107,16 +107,19 @@ CloudStorageCLI-Testing/
 │   │   ├── utils/           # Utility classes
 │   │   │   ├── CommandRunner.java
 │   │   │   ├── PlaywrightManager.java
-│   ├── test/java/com/cloudstorage/tests/
-│   │   ├── GCloudStorageTests.java    # Tests for gcloud CLI
-│   │   ├── PlaywrightSignedURLTest.java    # Playwright tests for signed URL security
+│   ├── test/java/com/cloudstorage/
+│   │    │   ├── tests/
+│   │    │   │   ├── GCloudStorageTests.java    # Tests for gcloud CLI
+│   │    │   │   ├── PlaywrightSignedURLTest.java    # Playwright tests for signed URL security
+│   │    │   ├── resources/
+│   │    │   │   ├──testng.xml    # TestNG configuration
 │── target/                  # Compiled test results
 │── .gitignore               # Git ignore file
 │── phishing_check.png        # Screenshot for Playwright test
 │── pom.xml                  # Maven dependencies
 │── readme.md                # Project documentation
 │── test-file.txt            # Test file for uploads
-│── testng.xml               # TestNG configuration
+│── 
 ```
 
 ---
@@ -130,3 +133,9 @@ CloudStorageCLI-Testing/
 
 ## 📜 License
 This project is for educational and testing purposes. Modify and use it as needed!
+
+1. docker build -t gcloud-tests .
+2. docker run -it --rm gcloud-tests
+3. gcloud auth login
+4. ENTER THE VERIFICATION CODE
+5. 
