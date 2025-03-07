@@ -15,64 +15,30 @@ public class GCloudStorageTests {
         // Ensure authentication (user should have logged in interactively)
         System.out.println("Checking authentication...");
         printCommandOutput("gcloud auth list");
-        System.out.println("**********************");
-
-        // Define the project ID
-        String projectId = "my-auto-test-danig-12345"; // Change if needed
 
         // Check if the project exists
-        System.out.println("Checking if project exists: " + projectId);
-        String checkProject = CommandRunner.runCommand("gcloud projects list --filter=\"projectId=" + projectId + "\" --format=\"value(projectId)\"");
-        System.out.println("Check project output: [" + checkProject + "]");
+        printCommandOutput("gcloud projects list --filter=\"projectId=" + ProjectConfig.PROJECT_ID + "\" --format=\"value(projectId)\"");
 
-        // Only create the project if it does not exist
-        if (checkProject.trim().isEmpty()) {
-            System.out.println("Project does NOT exist, creating...");
-            printCommandOutput("gcloud projects create " + projectId + " --set-as-default");
-        } else {
-            System.out.println("Project already exists: " + checkProject);
-        }
-
-        System.out.println("**********************");
+        printCommandOutput("gcloud projects create " + ProjectConfig.PROJECT_ID + " --set-as-default");
 
         // Set the active project
-        System.out.println("Setting project: " + projectId);
-        printCommandOutput("gcloud config set project " + projectId);
-        System.out.println("**********************");
+        printCommandOutput("gcloud config set project " + ProjectConfig.PROJECT_ID);
 
         // Verify the project is set correctly
-        System.out.println("Verifying active project...");
         printCommandOutput("gcloud config list");
-        System.out.println("**********************");
 
         // Add IAM permissions to allow storage operations
-        System.out.println("Adding IAM policies...");
-        printCommandOutput("gcloud projects add-iam-policy-binding " + projectId +
+        printCommandOutput("gcloud projects add-iam-policy-binding " + ProjectConfig.PROJECT_ID +
                 " --member=user:$(gcloud config get-value account) --role=roles/owner || true");
-        System.out.println("**********************");
 
-        // Ensure bucket is created within the correct project
-        String bucketName = "danig-cloud-bucket"; // Change if needed
-        System.out.println("Checking if bucket exists in project " + projectId + "...");
-        String checkBucket = CommandRunner.runCommand("gcloud storage buckets list --filter=\"name:" + bucketName + "\" --format=\"value(name)\"");
+        // Create a bucket in a specific project
+        printCommandOutput("gcloud storage buckets create gs://" + ProjectConfig.BUCKET_NAME + " --project=" + ProjectConfig.PROJECT_ID + " --location=us-central1");
 
-        if (checkBucket.trim().isEmpty()) {
-            System.out.println("Bucket does not exist, creating...");
-            //gcloud storage buckets create gs://BUCKET_NAME --location=BUCKET_LOCATION
-            printCommandOutput("gcloud storage buckets create gs://" + bucketName + " --project=" + projectId + " --location=us-central1");
-        } else {
-            System.out.println("Bucket already exists.");
-        }
-        System.out.println("**********************");
+        //Input some kishkush into a txt file
+        printCommandOutput("echo \"Hello Cloud Storage!\" > " + ProjectConfig.TEST_FILE_NAME);
 
-        // Create the test file
-        String testFileName = "test-file.txt";
-        printCommandOutput("echo \"Hello Cloud Storage!\" > " + testFileName);
-        System.out.println("**********************");
-
-        // Upload test file to bucket
-        System.out.println("Uploading test file...");
-        printCommandOutput("gcloud storage cp " + testFileName + " gs://" + bucketName + "/");
+        //Insert the txt file
+        printCommandOutput("gcloud storage cp " + ProjectConfig.TEST_FILE_NAME + " gs://" + ProjectConfig.BUCKET_NAME + "/");
     }
 
 
@@ -86,7 +52,6 @@ public class GCloudStorageTests {
     }
 
 
-
     @Test()
     @Description("Test to create a GCloud storage bucket")
     @Severity(SeverityLevel.CRITICAL)
@@ -98,7 +63,6 @@ public class GCloudStorageTests {
         String checkCommand = "gcloud storage buckets list --filter=name:" + ProjectConfig.BUCKET_NAME;
 
         String checkOutput = CommandRunner.runCommand(checkCommand);
-        System.out.println("\n****\ncheckOutput: " + checkOutput + "\n****\n");
 
         if (checkOutput.contains(ProjectConfig.BUCKET_NAME)) {
             System.out.println("Bucket already exists, skipping creation.");
@@ -122,7 +86,7 @@ public class GCloudStorageTests {
     @Severity(SeverityLevel.CRITICAL)
     @Step("Executing testUploadFile")
     public void testUploadFile() {
-        System.out.println("Checking if file exists in bucket...");
+        System.out.println("Checking if file exists in bucket named: " + ProjectConfig.BUCKET_NAME);
 
         // Command to check if the file exists
         String checkCommand = "gcloud storage ls gs://" + ProjectConfig.BUCKET_NAME + "/";
@@ -147,7 +111,7 @@ public class GCloudStorageTests {
     @Severity(SeverityLevel.MINOR)
     @Step("Executing testListFiles")
     public void testListFiles() {
-        System.out.println("Checking if file exists in bucket...");
+        System.out.println("Checking if the test to list the files in GCloud storage bucket is working");
 
         String command = "gcloud storage ls gs://" + ProjectConfig.BUCKET_NAME + "/";
         String output = CommandRunner.runCommand(command);
