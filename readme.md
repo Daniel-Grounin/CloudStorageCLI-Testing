@@ -2,6 +2,54 @@
 
 This project automates and tests **Google Cloud Storage CLI** commands using **TestNG**, **Allure** for reporting, and **Playwright** for signed URL validation.
 
+---
+
+# Running the Project with Docker
+
+This section provides step-by-step instructions on how to build and run the project using Docker.
+
+## Steps to Run the Docker Container
+
+1. **Build the Docker Image:**
+   ```sh
+   docker build -t gcloud-tests .
+   ```
+
+2. **Run the Docker Container:**
+   ```sh
+   docker run -it --rm gcloud-tests
+   ```
+
+   This command will start the container and prompt you for authentication.
+
+3. **Authenticate with Google Cloud:**
+   - When you run the container, you will see a terminal output similar to this:
+     
+     ![image](https://github.com/user-attachments/assets/33dbf978-a007-4a9e-8350-e7aa7cfc504c)
+
+   
+   - Copy and paste the provided URL into your browser to authenticate your account.
+   
+   - Enter the verification code back into the terminal.
+
+4. **Verify that the Project and Bucket are Created:**
+   - After authentication, the setup script will create the necessary Google Cloud project and storage bucket.
+   - You can verify this by running:
+     ```sh
+     gcloud projects list
+     gcloud storage buckets list
+     ```
+
+5. **Expected Output:**
+   - After a successful setup, you should see output confirming the creation of the project and bucket
+     
+
+Now your Google Cloud project and bucket are ready for testing!
+
+
+---
+
+
 ## 📂 Features
 
 ✅ **Automated tests for Google Cloud Storage CLI commands:**
